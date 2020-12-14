@@ -1,0 +1,2 @@
+echo $(wget -qO- https://raw.githubusercontent.com/ymir-linux/void-packages/master/srcpkgs/your-freedom/allowlist.txt | grep -v ":") $(wget -qO- https://raw.githubusercontent.com/ymir-linux/void-packages/master/srcpkgs/your-freedom/denylist.txt | grep -v ":") "nonfree/" "multilib/" "musl/" "aarch64/" | sed 's/ /\*\n/g' > /home/build/ignore.txt
+rsync -avz --exclude-from='/home/build/ignore.txt' --delete --delete-excluded rsync://alpha.de.repo.voidlinux.org:/voidmirror/current/ /srv/www/lighttpd/libre/main 
