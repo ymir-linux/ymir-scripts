@@ -2,4 +2,4 @@ wget -qO- https://raw.githubusercontent.com/ymir-linux/void-packages/master/srcp
 wget -qO- https://raw.githubusercontent.com/ymir-linux/void-packages/master/srcpkgs/your-freedom/denylist.txt | grep -v ":" | sed 's/$/\*/g' >> /home/build/ignore.txt
 cat /home/build/ignore.txt | sed 's/^/debug\//g' >> ignore.txt
 printf "\\naarch64/\\ndebug/\\nmultilib/\\nnonfree/\\nmusl/" >> /home/build/ignore.txt 
-rsync -avz --exclude-from='/home/build/ignore.txt' --delete --delete-excluded rsync://alpha.de.repo.voidlinux.org:/voidmirror/current/ /srv/www/lighttpd/libre/main 
+rsync -az --exclude-from='/home/build/ignore.txt' --delete --delete-excluded rsync://alpha.de.repo.voidlinux.org:/voidmirror/current/ /srv/www/lighttpd/libre/main 
