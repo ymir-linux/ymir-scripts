@@ -1,5 +1,9 @@
-wget -qO- https://raw.githubusercontent.com/ymir-linux/void-packages/master/srcpkgs/your-freedom/allowlist.txt | grep -v ":" | sed 's/$/\*/g' > /home/build/ignore.txt 
-wget -qO- https://raw.githubusercontent.com/ymir-linux/void-packages/master/srcpkgs/your-freedom/denylist.txt | grep -v ":" | sed 's/$/\*/g' >> /home/build/ignore.txt
-cat /home/build/ignore.txt | sed 's/^/debug\//g' >> ignore.txt
-printf "\\naarch64/\\ndebug/\\nmultilib/\\nnonfree/\\nmusl/" >> /home/build/ignore.txt 
-rsync -az --exclude-from='/home/build/ignore.txt' --delete --delete-excluded rsync://alpha.de.repo.voidlinux.org:/voidmirror/current/ /srv/www/lighttpd/libre/main 
+allw=$(wget -qO- https://raw.githubusercontent.com/ymir-linux/void-packages/master/srcpkgs/your-freedom/allowlist.txt | cut -f1 -d':' | sed 's/$/\*/g') 
+dny=$(wget -qO- https://raw.githubusercontent.com/ymir-linux/void-packages/master/srcpkgs/your-freedom/denylist.txt | cut -f1 -d':' | sed 's/$/\*/g')
+printf '$allw\\n$dny' > /home/build/ignore.txt
+wget -qO- https://git.parabola.nu/blacklist.git/plain/blacklist.txt | cut -f1 -d':' | grep -v "$allw" | sed 's/$/\*/g' >> /home/build/ignore.txt
+cat /home/build/ignore.txt | sed 's/^/debug\//g' >> /home/build/ignore.txt
+cat /home/build/ignore.txt | sed 's/^/multilib\//g' >> /home/build/ignore.txt
+printf "void-repo-debug*\\naarch64/\\ndebug/\\nmusl/\\nnonfree/" >> /home/build/ignore.txt 
+rsync -avz --exclude-from='/home/build/ignore.txt' --delete --delete-excluded --delete-before rsync://alpha.de.repo.voidlinux.org:/voidmirror/current/ /srv/www/lighttpd/libre/main 
+xbps-rindex -c /srv/www/lighttpd/libre/main/

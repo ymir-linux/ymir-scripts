@@ -1,3 +1,3 @@
 #!/bin/sh
-printf "linux-libre5.9\\nlinux-libre5.4\\n" > /home/build/xbps-mini-builder/packages.list
+printf "linux-libre5.12\\nlinux-libre5.13\\nlinux-libre5.4\\n" > /home/build/xbps-mini-builder/packages.list
 wget -qO- https://raw.githubusercontent.com/ymir-linux/void-packages/master/srcpkgs/your-freedom/allowlist.txt | grep -v ":" >> /home/build/xbps-mini-builder/packages.list
